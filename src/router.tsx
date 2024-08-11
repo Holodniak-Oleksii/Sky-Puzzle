@@ -1,6 +1,6 @@
-import { Base } from "./components/layouts/Base";
-import { Home } from "./pages/Home";
+import { Base } from "@/components/layouts/Base";
 
+import { Home } from "@/pages/Home";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
