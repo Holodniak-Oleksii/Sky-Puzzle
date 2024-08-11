@@ -1,11 +1,10 @@
-import { Base } from "@/components/layouts/Base";
-
-import { Home } from "@/pages/Home";
-import { createBrowserRouter } from "react-router-dom";
+import { Base } from '@/components/layouts/Base';
+import { Home } from '@/pages/Home';
+import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Base />,
     children: [{ index: true, element: <Home /> }],
   },
