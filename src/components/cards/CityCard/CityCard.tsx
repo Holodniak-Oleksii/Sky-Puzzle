@@ -1,3 +1,6 @@
+import { IAPIWeather } from '@/common/types/weather';
+import useWeather from '@/hooks/useWeather';
+import { getImage } from '@/utils/helpers';
 import {
   Button,
   Card,
@@ -6,25 +9,41 @@ import {
   Typography,
 } from '@mui/material';
 
-const CityCard = () => {
+interface ICityCardProps {
+  weather: IAPIWeather;
+}
+
+const CityCard = ({ weather }: ICityCardProps) => {
+  const { removeCity } = useWeather();
+
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+        <Typography
+          variant="h5"
+          sx={{ fontSize: 14 }}
+          color="text.secondary"
+          gutterBottom
+        >
+          {weather.name}
         </Typography>
-        <Typography variant="h5" component="div"></Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        <Typography>
+          <img src={getImage(weather.weather[0].icon, 2)} />
+        </Typography>
+        <Typography
+          sx={{ mb: 1.5, textTransform: 'capitalize' }}
+          color="text.secondary"
+        >
+          {weather.weather[0].description}
         </Typography>
         <Typography variant="body2">
-          well meaning and kindly.
           <br />
-          {'"a benevolent smile"'}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={() => removeCity(weather.id)}>
+          remove
+        </Button>
       </CardActions>
     </Card>
   );

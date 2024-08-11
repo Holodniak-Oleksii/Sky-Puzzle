@@ -30,7 +30,7 @@ export const lightTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
+          borderRadius: 8,
           boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
         },
       },
