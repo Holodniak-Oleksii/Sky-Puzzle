@@ -3,6 +3,7 @@ import {
   addCityByQuery,
   fetchWeatherForMultipleCities,
   IWeatherState,
+  refreshById,
   removeCityById,
 } from '@/store/slice/weather';
 import { useEffect, useRef } from 'react';
@@ -14,7 +15,7 @@ const useWeather = () => {
     (state: RootState) => state.weather
   ) as IWeatherState;
 
-  const isFetched = useRef(data.cities.length > 0);
+  const isFetched = useRef(data.cities.length > 0 || !!data.error);
 
   const addCity = (query: string) => {
     dispatch(addCityByQuery(query));
@@ -28,6 +29,10 @@ const useWeather = () => {
     dispatch(fetchWeatherForMultipleCities());
   };
 
+  const refetch = (id: number) => {
+    dispatch(refreshById(id));
+  };
+
   useEffect(() => {
     if (!isFetched.current) {
       fetchAll();
@@ -39,6 +44,7 @@ const useWeather = () => {
     data,
     addCity,
     removeCity,
+    refetch,
     refetchAll: fetchAll,
   };
 };

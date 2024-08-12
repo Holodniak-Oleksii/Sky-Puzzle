@@ -18,9 +18,15 @@ export const getWeatherForMultipleCities = async (): Promise<IAPIWeather[]> => {
   const response = await baseApi.get(`group`, {
     params: {
       id: ids,
-      units: 'metric',
     },
   });
 
   return response.data.list;
+};
+
+export const getWeatherById = async (id: number): Promise<IAPIWeather> => {
+  const response = await baseApi.get('weather', {
+    params: { id },
+  });
+  return response.data;
 };
