@@ -14,7 +14,7 @@ interface ICityCardProps {
 }
 
 const CityCard = ({ weather }: ICityCardProps) => {
-  const { removeCity } = useWeather();
+  const { removeCity, refetch } = useWeather();
 
   return (
     <Card>
@@ -43,6 +43,9 @@ const CityCard = ({ weather }: ICityCardProps) => {
       <CardActions>
         <Button size="small" onClick={() => removeCity(weather.id)}>
           remove
+        </Button>
+        <Button size="small" onClick={() => refetch(weather.id)}>
+          update
         </Button>
       </CardActions>
     </Card>
