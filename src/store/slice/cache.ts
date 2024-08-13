@@ -10,7 +10,7 @@ const initialState: ICacheState = {
 };
 
 const cacheSlice = createSlice({
-  name: EAPI_KEY.CITY,
+  name: EAPI_KEY.CACHE,
   initialState,
   reducers: {
     addCachedCity: (state, action) => {

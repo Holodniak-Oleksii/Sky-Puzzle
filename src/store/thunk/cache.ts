@@ -3,7 +3,7 @@ import weatherService from '@/services/api/weather';
 import createThunk from '@/utils/thunk';
 
 const getWeatherByIdThunk = createThunk(
-  EAPI_KEY.CITY,
+  EAPI_KEY.CACHE,
   'getWeatherByIdThunk',
   async (id: number, { getState }) => {
     const state = getState();
