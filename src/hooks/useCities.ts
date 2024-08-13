@@ -1,24 +1,18 @@
 import { AppDispatch, RootState } from '@/store';
-import {
-  addCityByQuery,
-  fetchWeatherForMultipleCities,
-  IWeatherState,
-  refreshById,
-  removeCityById,
-} from '@/store/slice/weather';
+
+import { removeCityById } from '@/store/slice/city';
+import cityThunk from '@/store/thunk/city';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const useWeather = () => {
+const useCities = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const data = useSelector(
-    (state: RootState) => state.weather
-  ) as IWeatherState;
+  const { data, error } = useSelector((state: RootState) => state.city);
 
-  const isFetched = useRef(data.cities.length > 0 || !!data.error);
+  const isFetched = useRef(data.length > 0 || !!error);
 
   const addCity = (query: string) => {
-    dispatch(addCityByQuery(query));
+    dispatch(cityThunk.addWeatherByQueryThunk(query));
   };
 
   const removeCity = (id: number) => {
@@ -26,11 +20,11 @@ const useWeather = () => {
   };
 
   const fetchAll = () => {
-    dispatch(fetchWeatherForMultipleCities());
+    dispatch(cityThunk.getWatchedWeathersThunk({}));
   };
 
   const refetch = (id: number) => {
-    dispatch(refreshById(id));
+    dispatch(cityThunk.refreshWeatherByIdThunk(id));
   };
 
   useEffect(() => {
@@ -49,4 +43,4 @@ const useWeather = () => {
   };
 };
 
-export default useWeather;
+export default useCities;
