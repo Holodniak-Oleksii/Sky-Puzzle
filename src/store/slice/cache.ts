@@ -29,6 +29,9 @@ const cacheSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+
+      // ----------------------------------------------------------------
+
       .addCase(cacheThunk.getWeatherByIdThunk.pending, (state) => {
         state.status = EAPI_STATUS.LOADING;
       })
@@ -42,7 +45,40 @@ const cacheSlice = createSlice({
       .addCase(cacheThunk.getWeatherByIdThunk.rejected, (state, action) => {
         state.status = EAPI_STATUS.FAILED;
         state.error = action.payload as string;
-      });
+      })
+
+      // ----------------------------------------------------------------
+
+      .addCase(cacheThunk.getDailyForecastByCityThunk.pending, (state) => {
+        state.status = EAPI_STATUS.LOADING;
+      })
+      .addCase(
+        cacheThunk.getDailyForecastByCityThunk.fulfilled,
+        (state, action) => {
+          state.status = EAPI_STATUS.FAILED;
+          state.error = null;
+
+          if (action.payload !== null) {
+            const index = state.data.findIndex(
+              (c) => c.id === action.payload?.city.id
+            );
+
+            if (index !== -1) {
+              state.data[index] = {
+                ...state.data[index],
+                forecast: action.payload,
+              };
+            }
+          }
+        }
+      )
+      .addCase(
+        cacheThunk.getDailyForecastByCityThunk.rejected,
+        (state, action) => {
+          state.status = EAPI_STATUS.FAILED;
+          state.error = action.payload as string;
+        }
+      );
   },
 });
 

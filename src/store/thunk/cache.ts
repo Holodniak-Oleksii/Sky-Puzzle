@@ -16,6 +16,22 @@ const getWeatherByIdThunk = createThunk(
     return await weatherService.getWeatherById(id);
   }
 );
+
+const getDailyForecastByCityThunk = createThunk(
+  EAPI_KEY.CACHE,
+  'getDailyForecastByCityThunk',
+  async (id: number, { getState }) => {
+    const state = getState();
+    const city = state.cache.data.find((c) => c.id === id);
+
+    if (city?.forecast) {
+      return null;
+    }
+
+    return await weatherService.getDailyForecastByCity(id);
+  }
+);
 export default {
   getWeatherByIdThunk,
+  getDailyForecastByCityThunk,
 };

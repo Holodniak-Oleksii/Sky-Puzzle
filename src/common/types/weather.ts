@@ -12,6 +12,15 @@ export interface IAPIWeather {
   id: number;
   name: string;
   cod: number;
+  forecast: IAPIForecast;
+}
+
+export interface IAPIForecast {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: IList[];
+  city: ICity;
 }
 
 interface ICoord {
@@ -49,6 +58,33 @@ interface IClouds {
 
 interface ISys {
   country: string;
+  sunrise: number;
+  sunset: number;
+}
+
+interface IList {
+  dt: number;
+  main: IMain;
+  weather: IWeather[];
+  clouds: IClouds;
+  wind: IWind;
+  visibility: number;
+  pop: number;
+  sys: ISys;
+  dt_txt: string;
+  rain?: IRain;
+}
+
+interface IRain {
+  '3h': number;
+}
+interface ICity {
+  id: number;
+  name: string;
+  coord: ICoord;
+  country: string;
+  population: number;
+  timezone: number;
   sunrise: number;
   sunset: number;
 }

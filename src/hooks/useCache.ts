@@ -13,6 +13,7 @@ const useCache = (id?: number) => {
   useEffect(() => {
     if (id) {
       dispatch(cacheThunk.getWeatherByIdThunk(id));
+      dispatch(cacheThunk.getDailyForecastByCityThunk(id));
     }
   }, [id]);
 

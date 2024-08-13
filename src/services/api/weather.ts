@@ -1,4 +1,4 @@
-import { IAPIWeather } from '@/common/types/weather';
+import { IAPIForecast, IAPIWeather } from '@/common/types/weather';
 import baseApi from '@/services/api';
 const storageKey = import.meta.env.VITE_STORAGE_KEY;
 
@@ -20,8 +20,16 @@ const getWeatherById = async (id: number): Promise<IAPIWeather> => {
   return response.data;
 };
 
+const getDailyForecastByCity = async (
+  id: number | string
+): Promise<IAPIForecast> => {
+  const response = await baseApi.get(`forecast?id=${id}&units=metric`);
+  return response.data;
+};
+
 export default {
   getWatchedWeathers,
   getWeatherById,
   getWeatherByQuery,
+  getDailyForecastByCity,
 };
