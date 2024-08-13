@@ -1,9 +1,11 @@
 import { CityCard } from '@/components/cards/CityCard';
 import useCities from '@/hooks/useCities';
-import { ISubmitFormData } from '@/pages/Home/types';
+import { Welcome } from '@/pages/Home/components/Welcome';
 import { Button } from '@mui/material';
+import { useState } from 'react';
 import {
   FormContent,
+  FormWrapper,
   StyledContainer,
   StyledInput,
   StyledList,
@@ -11,16 +13,10 @@ import {
 
 const Home = () => {
   const { addCity, data } = useCities();
+  const [query, setQuery] = useState('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(
-      formData.entries()
-    ) as unknown as ISubmitFormData;
-
-    addCity(data.query);
+  const handleClick = () => {
+    addCity(query);
   };
 
   const renderCities = () =>
@@ -28,15 +24,27 @@ const Home = () => {
 
   return (
     <StyledContainer>
-      <form onSubmit={handleSubmit}>
+      <Welcome />
+      <FormWrapper>
         <FormContent>
-          <StyledInput placeholder="Search" name="query" />
-          <Button type="submit" variant="outlined" color="primary">
+          <StyledInput
+            placeholder="Search"
+            name="query"
+            variant="standard"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <Button
+            type="submit"
+            variant="text"
+            color="primary"
+            onClick={handleClick}
+          >
             Get
           </Button>
         </FormContent>
-      </form>
-      <StyledList>{renderCities()}</StyledList>
+        <StyledList>{renderCities()}</StyledList>
+      </FormWrapper>
     </StyledContainer>
   );
 };

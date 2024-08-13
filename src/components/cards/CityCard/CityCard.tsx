@@ -1,28 +1,61 @@
 import { LINK_TEMPLATES } from '@/common/constants/link-templates';
-import { IShortCityWetherModel } from '@/common/types/models';
+import { IShortCityWeatherModel } from '@/common/types/models';
 import useCities from '@/hooks/useCities';
 import { getImage } from '@/utils/helpers';
+import emotionStyled from '@emotion/styled';
 import {
+  Box,
   Button,
   Card,
   CardActions,
-  CardContent,
+  styled,
   Typography,
 } from '@mui/material';
 import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface ICityCardProps {
-  weather: IShortCityWetherModel;
+  weather: IShortCityWeatherModel;
 }
 
-const CityCard = ({ weather }: ICityCardProps) => {
-  const push = useNavigate();
+const StyledCard = styled(Card)(() => ({
+  boxShadow:
+    'rgba(60, 64, 67, 0.3) 0px 0px 2px 0px, rgba(60, 64, 67, 0.05) 0px 2px 6px 2px',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  cursor: 'pointer',
+  transition: 'transform 0.2s ease-in-out',
+}));
 
+const TopSection = styled(Box)(({ theme }) => ({
+  backgroundColor: '#57b9ff',
+  color: '#fff',
+  padding: '16px 16px 0 0',
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: theme.spacing(1),
+}));
+
+const BottomSection = styled(Box)(() => ({
+  backgroundColor: '#fff',
+  padding: '16px',
+  textAlign: 'left',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+}));
+
+const StyledImage = emotionStyled.img`
+  width: 60%;
+  object-fit: contain;
+`;
+
+const CityCard = ({ weather }: ICityCardProps) => {
+  const navigate = useNavigate();
   const { refetch, removeCity } = useCities();
 
   const handleRedirect = () => {
-    push(LINK_TEMPLATES.DETAILS(weather.id));
+    navigate(LINK_TEMPLATES.DETAILS(weather.id));
   };
 
   const handleClick = (
@@ -34,38 +67,50 @@ const CityCard = ({ weather }: ICityCardProps) => {
   };
 
   return (
-    <Card onClick={handleRedirect}>
-      <CardContent>
-        <Typography
-          variant="h5"
-          sx={{ fontSize: 14 }}
-          color="text.secondary"
-          gutterBottom
-        >
-          {weather.name}
-        </Typography>
-        <Typography>
-          <img src={getImage(weather.icon, 2)} />
-        </Typography>
-        <Typography
-          sx={{ mb: 1.5, textTransform: 'capitalize' }}
-          color="text.secondary"
-        >
-          {weather.description}
+    <StyledCard onClick={handleRedirect}>
+      <TopSection>
+        <StyledImage
+          src={getImage(weather.icon, 4)}
+          alt={weather.description}
+        />
+        <Box align="right">
+          <Typography variant="subtitle2">{weather.weather}</Typography>
+          <Typography variant="h3">{weather.temperature}°</Typography>
+          <Typography variant="subtitle1">{weather.name}</Typography>
+        </Box>
+      </TopSection>
+      <BottomSection>
+        <Typography variant="body2">
+          <strong>Wind:</strong> {weather.windSpeed} mph
         </Typography>
         <Typography variant="body2">
-          <br />
+          <strong>Humidity:</strong> {weather.humidity}%
         </Typography>
-      </CardContent>
+        <Typography variant="body2">
+          <strong>Pressure:</strong> {weather.pressure} in
+        </Typography>
+      </BottomSection>
       <CardActions>
-        <Button size="small" onClick={(e) => handleClick(e, removeCity)}>
-          remove
+        <Button
+          size="small"
+          color="secondary"
+          onClick={(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>
+            handleClick(e, removeCity)
+          }
+        >
+          Remove
         </Button>
-        <Button size="small" onClick={(e) => handleClick(e, refetch)}>
-          update
+        <Button
+          size="small"
+          color="primary"
+          onClick={(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>
+            handleClick(e, refetch)
+          }
+        >
+          Update
         </Button>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 };
 

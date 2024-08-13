@@ -1,9 +1,9 @@
 import { EAPI_KEY, EAPI_STATUS } from '@/common/types/enums';
-import { IShortCityWetherModel } from '@/common/types/models';
+import { IShortCityWeatherModel } from '@/common/types/models';
 import { IAPIWeather } from '@/common/types/weather';
 
 export interface ICityState {
-  data: IShortCityWetherModel[];
+  data: IShortCityWeatherModel[];
   status: EAPI_STATUS;
   error: string | null;
 }

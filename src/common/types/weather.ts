@@ -62,7 +62,7 @@ interface ISys {
   sunset: number;
 }
 
-interface IList {
+export interface IList {
   dt: number;
   main: IMain;
   weather: IWeather[];

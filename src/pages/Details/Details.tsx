@@ -1,27 +1,20 @@
 import useCache from '@/hooks/useCache';
-import { getImage } from '@/utils/helpers';
-import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { StyledContainer, StyledWrapper, WeatherImage } from './styles';
+import { CurrentWeather } from './components/CurrentWeather';
+import { TemperatureChart } from './components/TemperatureChart';
+import { StyledContainer, StyledWrapper } from './styles';
 
 const Details = () => {
   const { id } = useParams();
-
   const { data: weather } = useCache(Number(id));
+
+  if (!weather) return null;
 
   return (
     <StyledWrapper>
       <StyledContainer>
-        <WeatherImage src={getImage(weather?.weather[0].icon, 4)} />
-        <Box>
-          <Typography variant="h1" component="h2">
-            {weather?.name}
-          </Typography>
-
-          <Typography variant="h6" component="h6">
-            {weather?.weather[0].description}
-          </Typography>
-        </Box>
+        <CurrentWeather weather={weather} />
+        {!!weather.forecast && <TemperatureChart forecast={weather.forecast} />}
       </StyledContainer>
     </StyledWrapper>
   );
