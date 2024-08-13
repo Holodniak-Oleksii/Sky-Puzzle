@@ -1,9 +1,13 @@
+import { EAPI_KEY } from '@/common/types/enums';
+import { IStoreTypes } from '@/store/types';
 import { configureStore } from '@reduxjs/toolkit';
-import weatherReducer from './slice/weather';
+import cacheReducer from './slice/cache';
+import cityReducer from './slice/city';
 
-const store = configureStore({
+const store = configureStore<IStoreTypes>({
   reducer: {
-    weather: weatherReducer,
+    [EAPI_KEY.CITY]: cityReducer,
+    [EAPI_KEY.CACHE]: cacheReducer,
   },
 });
 

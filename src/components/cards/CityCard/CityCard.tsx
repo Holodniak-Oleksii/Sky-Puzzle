@@ -1,5 +1,6 @@
-import { IAPIWeather } from '@/common/types/weather';
-import useWeather from '@/hooks/useWeather';
+import { LINK_TEMPLATES } from '@/common/constants/link-templates';
+import { IShortCityWetherModel } from '@/common/types/models';
+import useCities from '@/hooks/useCities';
 import { getImage } from '@/utils/helpers';
 import {
   Button,
@@ -8,16 +9,32 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
+import { MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ICityCardProps {
-  weather: IAPIWeather;
+  weather: IShortCityWetherModel;
 }
 
 const CityCard = ({ weather }: ICityCardProps) => {
-  const { removeCity, refetch } = useWeather();
+  const push = useNavigate();
+
+  const { refetch, removeCity } = useCities();
+
+  const handleRedirect = () => {
+    push(LINK_TEMPLATES.DETAILS(weather.id));
+  };
+
+  const handleClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    callback: (id: number) => void
+  ) => {
+    e.stopPropagation();
+    callback(weather.id);
+  };
 
   return (
-    <Card>
+    <Card onClick={handleRedirect}>
       <CardContent>
         <Typography
           variant="h5"
@@ -28,23 +45,23 @@ const CityCard = ({ weather }: ICityCardProps) => {
           {weather.name}
         </Typography>
         <Typography>
-          <img src={getImage(weather.weather[0].icon, 2)} />
+          <img src={getImage(weather.icon, 2)} />
         </Typography>
         <Typography
           sx={{ mb: 1.5, textTransform: 'capitalize' }}
           color="text.secondary"
         >
-          {weather.weather[0].description}
+          {weather.description}
         </Typography>
         <Typography variant="body2">
           <br />
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => removeCity(weather.id)}>
+        <Button size="small" onClick={(e) => handleClick(e, removeCity)}>
           remove
         </Button>
-        <Button size="small" onClick={() => refetch(weather.id)}>
+        <Button size="small" onClick={(e) => handleClick(e, refetch)}>
           update
         </Button>
       </CardActions>

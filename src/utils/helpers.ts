@@ -1,12 +1,12 @@
-import { IAPIWeather } from '@/common/types/weather';
+import { IShortCityWetherModel } from '@/common/types/models';
 
 const sourceURL = import.meta.env.VITE_IMAGE_SOURCE_URL;
 const storageKey = import.meta.env.VITE_STORAGE_KEY;
 
-export const getImage = (image: string, size?: number) =>
+export const getImage = (image?: string, size?: number) =>
   sourceURL.replace('IMAGE', image).replace('SIZE', size || 1);
 
-export const saveCitiesToLocalStorage = (cities: IAPIWeather[]) => {
+export const saveCitiesToLocalStorage = (cities: IShortCityWetherModel[]) => {
   try {
     const cityIds = cities.map((city) => city.id);
     localStorage.setItem(storageKey, cityIds.join(','));

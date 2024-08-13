@@ -1,5 +1,5 @@
 import { CityCard } from '@/components/cards/CityCard';
-import useWeather from '@/hooks/useWeather';
+import useCities from '@/hooks/useCities';
 import { ISubmitFormData } from '@/pages/Home/types';
 import { Button } from '@mui/material';
 import {
@@ -10,7 +10,7 @@ import {
 } from './styles';
 
 const Home = () => {
-  const { addCity, data } = useWeather();
+  const { addCity, data } = useCities();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,7 +24,7 @@ const Home = () => {
   };
 
   const renderCities = () =>
-    data.cities.map((item) => <CityCard weather={item} key={item.id} />);
+    data.map((item) => <CityCard weather={item} key={item.id} />);
 
   return (
     <StyledContainer>
