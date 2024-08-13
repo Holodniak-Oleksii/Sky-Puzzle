@@ -3,7 +3,7 @@ import baseApi from '@/services/api';
 const storageKey = import.meta.env.VITE_STORAGE_KEY;
 
 const getWeatherByQuery = async (q: string): Promise<IAPIWeather> => {
-  const response = await baseApi.get(`weather?q=${q}`);
+  const response = await baseApi.get(`weather?q=${q}&units=metric`);
   return response.data;
 };
 
@@ -11,12 +11,12 @@ const getWatchedWeathers = async (): Promise<IAPIWeather[]> => {
   const ids = localStorage.getItem(storageKey);
   if (!ids) return [];
 
-  const response = await baseApi.get(`group?id=${ids}`);
+  const response = await baseApi.get(`group?id=${ids}&units=metric`);
   return response.data.list;
 };
 
 const getWeatherById = async (id: number): Promise<IAPIWeather> => {
-  const response = await baseApi.get(`weather?id=${id}`);
+  const response = await baseApi.get(`weather?id=${id}&units=metric`);
   return response.data;
 };
 

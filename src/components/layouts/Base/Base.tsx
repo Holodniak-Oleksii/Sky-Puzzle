@@ -7,19 +7,19 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   minHeight: '100svh',
   margin: '0 auto',
   position: 'relative',
-  padding: '100px 120px 0 120px',
+  padding: '0 120px 120px ',
 
   [theme.breakpoints.down(1920)]: {
-    padding: '100px 8vw 0 8vw',
+    padding: '0 8vw 8vw',
   },
   [theme.breakpoints.down(1440)]: {
-    padding: '100px 5vw 0 5vw',
+    padding: '0 5vw 100px 5vw',
   },
   [theme.breakpoints.down(1280)]: {
-    padding: '100px 40px 0 40px',
+    padding: '0 40px 80px 40px',
   },
   [theme.breakpoints.down(768)]: {
-    padding: '76px 16px 0 16px',
+    padding: '0 16px 76px 16px',
   },
 }));
 
