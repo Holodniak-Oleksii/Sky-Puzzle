@@ -1,51 +1,103 @@
+import { EAPI_STATUS } from '@/common/types/enums';
 import { CityCard } from '@/components/cards/CityCard';
 import useCities from '@/hooks/useCities';
-import { Welcome } from '@/pages/Home/components/Welcome';
-import { Button } from '@mui/material';
-import { useState } from 'react';
-import {
-  FormContent,
-  FormWrapper,
-  StyledContainer,
-  StyledInput,
-  StyledList,
-} from './styles';
+import { Alert, Box, Snackbar, Typography } from '@mui/material';
+
+import { getCardWidth } from '@/utils/helpers';
+import { styled } from '@mui/system';
+import { useEffect, useState } from 'react';
+import { SearchFiled } from './components/SearchFiled';
+
+export const StyledWrapper = styled(Box)(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(4),
+}));
+
+export const StyledList = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: theme.spacing(1),
+
+  '& > *': {
+    width: getCardWidth(theme.spacing(1), 5),
+
+    [theme.breakpoints.down(1620)]: {
+      width: getCardWidth(theme.spacing(1), 4),
+    },
+
+    [theme.breakpoints.down(1024)]: {
+      width: getCardWidth(theme.spacing(1), 3),
+    },
+
+    [theme.breakpoints.down(768)]: {
+      width: `calc(50% - 4px)`,
+    },
+
+    [theme.breakpoints.down(540)]: {
+      width: '100%',
+    },
+  },
+}));
 
 const Home = () => {
-  const { addCity, data } = useCities();
-  const [query, setQuery] = useState('');
+  const { data, status, addCity, error } = useCities();
+  console.log('data :', data);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const handleClick = () => {
-    addCity(query);
+  const isLoading =
+    status === EAPI_STATUS.IDLE || status === EAPI_STATUS.LOADING;
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   const renderCities = () =>
     data.map((item) => <CityCard weather={item} key={item.id} />);
 
+  useEffect(() => {
+    if (error) {
+      setOpenSnackbar(true);
+    }
+  }, [error]);
+
+  if (isLoading) {
+    // @TODO: implement loading state
+    return null;
+  }
+
   return (
-    <StyledContainer>
-      <Welcome />
-      <FormWrapper>
-        <FormContent>
-          <StyledInput
-            placeholder="Search"
-            name="query"
-            variant="standard"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <Button
-            type="submit"
-            variant="text"
-            color="primary"
-            onClick={handleClick}
-          >
-            Get
-          </Button>
-        </FormContent>
+    <StyledWrapper>
+      <SearchFiled handlerAddCity={addCity} />
+      {!!data.length ? (
         <StyledList>{renderCities()}</StyledList>
-      </FormWrapper>
-    </StyledContainer>
+      ) : (
+        <Box
+          height={200}
+          display={'flex'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
+          <Typography variant="h6" align="center">
+            You don't have any city to watch. Provide the name of the city
+          </Typography>
+        </Box>
+      )}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {error}
+        </Alert>
+      </Snackbar>
+    </StyledWrapper>
   );
 };
 

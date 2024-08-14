@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const useCities = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { data, error } = useSelector((state: RootState) => state.city);
+  const { data, error, status } = useSelector((state: RootState) => state.city);
 
   const isFetched = useRef(data.length > 0 || !!error);
 
@@ -36,6 +36,9 @@ const useCities = () => {
 
   return {
     data,
+    error,
+    status,
+    isFetched,
     addCity,
     removeCity,
     refetch,

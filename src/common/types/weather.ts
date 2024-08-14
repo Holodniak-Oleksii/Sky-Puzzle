@@ -12,7 +12,7 @@ export interface IAPIWeather {
   id: number;
   name: string;
   cod: number;
-  forecast: IAPIForecast;
+  forecast?: IAPIForecast;
 }
 
 export interface IAPIForecast {

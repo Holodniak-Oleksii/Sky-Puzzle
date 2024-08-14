@@ -78,7 +78,7 @@ const TemperatureChart: FC<ITemperatureChartProps> = ({ forecast }) => {
 
   return (
     <Box display={'flex'} flexDirection="column" gap={6}>
-      <Box display={'flex'} fullWidth>
+      <Box display={'flex'}>
         <Tabs
           value={selectedDay}
           onChange={handleDayChange}
@@ -91,6 +91,7 @@ const TemperatureChart: FC<ITemperatureChartProps> = ({ forecast }) => {
           <Select
             labelId="metric-select-label"
             id="metric-select"
+            data-testid="metric-select"
             value={selectedMetric}
             onChange={handleMetricChange}
           >

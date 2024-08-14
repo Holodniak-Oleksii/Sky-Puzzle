@@ -67,13 +67,13 @@ const CityCard = ({ weather }: ICityCardProps) => {
   };
 
   return (
-    <StyledCard onClick={handleRedirect}>
+    <StyledCard onClick={handleRedirect} data-testid="card-navigate">
       <TopSection>
         <StyledImage
           src={getImage(weather.icon, 4)}
           alt={weather.description}
         />
-        <Box align="right">
+        <Box>
           <Typography variant="subtitle2">{weather.weather}</Typography>
           <Typography variant="h3">{weather.temperature}°</Typography>
           <Typography variant="subtitle1">{weather.name}</Typography>
@@ -81,7 +81,7 @@ const CityCard = ({ weather }: ICityCardProps) => {
       </TopSection>
       <BottomSection>
         <Typography variant="body2">
-          <strong>Wind:</strong> {weather.windSpeed} mph
+          <strong>Wind:</strong> {weather.windSpeed}mph
         </Typography>
         <Typography variant="body2">
           <strong>Humidity:</strong> {weather.humidity}%
@@ -94,18 +94,24 @@ const CityCard = ({ weather }: ICityCardProps) => {
         <Button
           size="small"
           color="secondary"
-          onClick={(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>
-            handleClick(e, removeCity)
-          }
+          onClick={(
+            e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+          ) => {
+            e.stopPropagation();
+            handleClick(e, removeCity);
+          }}
         >
           Remove
         </Button>
         <Button
           size="small"
           color="primary"
-          onClick={(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) =>
-            handleClick(e, refetch)
-          }
+          onClick={(
+            e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+          ) => {
+            e.stopPropagation();
+            handleClick(e, refetch);
+          }}
         >
           Update
         </Button>

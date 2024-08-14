@@ -46,6 +46,10 @@ const CurrentWeather: FC<ICurrentWeatherProps> = ({ weather }) => (
         <b>Wind Speed:</b>&nbsp;
         {weather.wind.speed} m/s
       </Typography>
+      <Typography variant="body1">
+        <b>Pressure:</b>&nbsp;
+        {weather.main.pressure} in
+      </Typography>
     </Box>
   </StyledBox>
 );
