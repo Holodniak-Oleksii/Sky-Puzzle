@@ -78,7 +78,7 @@ const TemperatureChart: FC<ITemperatureChartProps> = ({ forecast }) => {
 
   return (
     <Box display={'flex'} flexDirection="column" gap={6}>
-      <Box display={'flex'}>
+      <Box display={'flex'} gap={2}>
         <Tabs
           value={selectedDay}
           onChange={handleDayChange}

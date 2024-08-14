@@ -94,9 +94,7 @@ const CityCard = ({ weather }: ICityCardProps) => {
         <Button
           size="small"
           color="secondary"
-          onClick={(
-            e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-          ) => {
+          onClick={(e) => {
             e.stopPropagation();
             handleClick(e, removeCity);
           }}
@@ -106,9 +104,7 @@ const CityCard = ({ weather }: ICityCardProps) => {
         <Button
           size="small"
           color="primary"
-          onClick={(
-            e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
-          ) => {
+          onClick={(e) => {
             e.stopPropagation();
             handleClick(e, refetch);
           }}

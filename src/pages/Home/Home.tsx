@@ -43,7 +43,6 @@ export const StyledList = styled(Box)(({ theme }) => ({
 
 const Home = () => {
   const { data, status, addCity, error } = useCities();
-  console.log('data :', data);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const isLoading =
@@ -57,9 +56,7 @@ const Home = () => {
     data.map((item) => <CityCard weather={item} key={item.id} />);
 
   useEffect(() => {
-    if (error) {
-      setOpenSnackbar(true);
-    }
+    setOpenSnackbar(!!error);
   }, [error]);
 
   if (isLoading) {
@@ -86,7 +83,7 @@ const Home = () => {
       )}
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
       >
         <Alert
