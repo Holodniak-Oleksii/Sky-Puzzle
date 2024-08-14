@@ -24,15 +24,18 @@ const citySlice = createSlice({
 
       // ----------------------------------------------------------------
 
-      .addCase(cityThunk.addWeatherByQueryThunk.pending, (state) => {
-        state.status = EAPI_STATUS.LOADING;
-      })
       .addCase(cityThunk.addWeatherByQueryThunk.fulfilled, (state, action) => {
         state.status = EAPI_STATUS.SUCCEEDED;
         state.error = null;
 
-        state.data = [action.payload, ...state.data];
-        saveCitiesToLocalStorage(state.data);
+        if (action.payload !== null) {
+          const isExist = state.data.find((c) => c.id === action.payload.id);
+
+          if (!isExist) {
+            state.data = [action.payload, ...state.data];
+            saveCitiesToLocalStorage(state.data);
+          }
+        }
       })
       .addCase(cityThunk.addWeatherByQueryThunk.rejected, (state, action) => {
         state.status = EAPI_STATUS.FAILED;
@@ -41,9 +44,6 @@ const citySlice = createSlice({
 
       // ----------------------------------------------------------------
 
-      .addCase(cityThunk.refreshWeatherByIdThunk.pending, (state) => {
-        state.status = EAPI_STATUS.LOADING;
-      })
       .addCase(cityThunk.refreshWeatherByIdThunk.fulfilled, (state, action) => {
         state.status = EAPI_STATUS.SUCCEEDED;
         state.error = null;
