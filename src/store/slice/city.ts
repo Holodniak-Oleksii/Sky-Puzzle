@@ -34,6 +34,9 @@ const citySlice = createSlice({
           if (!isExist) {
             state.data = [action.payload, ...state.data];
             saveCitiesToLocalStorage(state.data);
+          } else {
+            state.status = EAPI_STATUS.FAILED;
+            state.error = 'City already added.';
           }
         }
       })

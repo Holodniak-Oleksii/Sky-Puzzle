@@ -12,7 +12,7 @@ vi.mock('@/hooks/useCities', () => ({
 
 describe('SearchFiled', () => {
   it('renders the component correctly', () => {
-    render(<SearchFiled />);
+    render(<SearchFiled handlerAddCity={() => {}} />);
     expect(
       screen.getByPlaceholderText('Enter full city name')
     ).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('SearchFiled', () => {
   });
 
   it('updates input value on change', () => {
-    render(<SearchFiled />);
+    render(<SearchFiled handlerAddCity={() => {}} />);
     const input = screen.getByPlaceholderText(
       'Enter full city name'
     ) as HTMLInputElement;
